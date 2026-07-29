@@ -157,7 +157,7 @@ public class Player : MonoBehaviour, ITakeDamageable
     private IEnumerator Hit()
     {
         m_refRener.color = m_tChangeColor;
-        yield return new WaitForSeconds(0.2f);
+        yield return new WaitForSeconds(0.5f);
         m_refRener.color = m_tOriginColor;
     }
     public void TakeDamage(Vector2 vHitPos, int _iDamage)
