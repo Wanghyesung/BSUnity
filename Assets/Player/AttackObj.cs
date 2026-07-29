@@ -30,7 +30,7 @@ public class AttackObj : MonoBehaviour
         if ((m_tAttackLayer.value & (1 << other.gameObject.layer)) != 0)
         {
             var dam = other.GetComponent<ITakeDamageable>();
-            dam.TakeDamage(transform.position);
+            dam.TakeDamage(transform.position, m_iAttack);
         }
     }
 

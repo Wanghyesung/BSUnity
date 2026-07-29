@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -30,6 +31,8 @@ public class Monster : MonoBehaviour, ITakeDamageable
     private Coroutine m_COHit = null;
 
     private SOMonsterInfo m_refInfo;
+
+    public static Action<int> OnDead;
     public void Init(SOMonsterInfo _SOData)
     {
         m_refInfo = _SOData;
@@ -104,9 +107,9 @@ public class Monster : MonoBehaviour, ITakeDamageable
     }
     
 
-    public void TakeDamage(Vector2 vHitPos)
+    public void TakeDamage(Vector2 vHitPos , int _iDamage)
     {
-        HP -= 30.0f;
+        HP -= _iDamage;
         m_bHit = true;
         if (HP <= 0.0f)
         {
@@ -126,6 +129,7 @@ public class Monster : MonoBehaviour, ITakeDamageable
 
     public void Des()
     {
+        OnDead?.Invoke(m_refInfo.Exp);
         Destroy(gameObject);
     }
 
@@ -135,4 +139,6 @@ public class Monster : MonoBehaviour, ITakeDamageable
         yield return new WaitForSeconds(0.2f);
         m_refRener.color = m_tOriginColor;
     }
+
+    
 }

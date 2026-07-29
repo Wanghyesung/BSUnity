@@ -14,10 +14,12 @@ public class Bullet : MonoBehaviour
     private float m_fCurTime = 0.0f;
 
     [SerializeField] private float m_fSpeed = 3.0f;
-    public void Init(Vector2 _vDir)
+    private int m_iDamage;
+    public void Init(Vector2 _vDir, int _iDamage)
     {
         m_fCurTime = m_fAliveTime;
         m_vDir = _vDir;
+        m_iDamage = _iDamage;
     }
 
     private void Update()
@@ -48,7 +50,7 @@ public class Bullet : MonoBehaviour
         if ((m_tHitLayer.value & (1 << other.gameObject.layer)) != 0)
         {
             var dam = other.GetComponent<ITakeDamageable>();
-            dam.TakeDamage(transform.position);
+            dam.TakeDamage(transform.position, m_iDamage);
             Destroy(gameObject);
         }
     }

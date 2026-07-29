@@ -313,7 +313,7 @@ MonoBehaviour:
   m_MinValue: 0
   m_MaxValue: 1
   m_WholeNumbers: 0
-  m_Value: 1
+  m_Value: 0
   m_OnValueChanged:
     m_PersistentCalls:
       m_Calls: []
@@ -2648,6 +2648,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b700c69a3d555884b95293906555a3d2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  m_refHPSlider: {fileID: 664104811}
+  m_refExpSlider: {fileID: 265022352}
   m_fSpeed: 2
   m_fFireTime: 0.2
   m_fOffset: 0.5

@@ -15,3 +15,4 @@ MonoBehaviour:
   MaxHP: 80
   Speed: 2
   Damage: 5
+  Exp: 8

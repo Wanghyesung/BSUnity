@@ -1,17 +1,23 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.UI;
 
 
 public interface ITakeDamageable
 {
-    public void TakeDamage(Vector2 vHitPos);
+    public void TakeDamage(Vector2 vHitPos, int _iDamage);
 
 
 }
 
 public class Player : MonoBehaviour, ITakeDamageable
 {
+    [SerializeField] private Slider m_refHPSlider;
+    [SerializeField] private Slider m_refExpSlider;
+
+
     private Vector2 m_vInput;
 
     private Rigidbody2D m_refRigid;
@@ -39,8 +45,14 @@ public class Player : MonoBehaviour, ITakeDamageable
     private Coroutine m_COHit = null;
 
     public static Vector2 MOUSE_POS;
+
+    private int m_iDamage = 30;
+    private int m_iHP = 100;
+    private int m_iMax = 100;
+    private int m_iEXP = 100;
     private void Awake()
     {
+        m_iHP = m_iMax;
         m_player = this;
         m_fLastFireTime = Time.time;
         m_refRener = GetComponent<SpriteRenderer>();
@@ -49,6 +61,10 @@ public class Player : MonoBehaviour, ITakeDamageable
         m_tOriginColor = m_refRener.color;
     }
 
+    private void Start()
+    {
+        Monster.OnDead += AddEXP;
+    }
     private void Update()
     {
         m_vInput.x = Input.GetAxis("Horizontal");
@@ -105,11 +121,21 @@ public class Player : MonoBehaviour, ITakeDamageable
         vPos += vNor * m_fOffset;
 
         Bullet refBullet = GameObject.Instantiate(m_refBullet, vPos, Quaternion.identity);
-        refBullet.Init(vNor);
+        refBullet.Init(vNor, m_iDamage);
     }
 
-    public void TakeDamage(Vector2 vHitPos)
+    
+    private IEnumerator Hit()
     {
+        m_refRener.color = m_tChangeColor;
+        yield return new WaitForSeconds(0.2f);
+        m_refRener.color = m_tOriginColor;
+    }
+    public void TakeDamage(Vector2 vHitPos, int _iDamage)
+    {
+        m_iHP -= _iDamage;
+        m_refHPSlider.value = ((float)m_iHP / (float)m_iMax);
+
         m_refTable.SetTrigger(eEntityState.Hit);
 
         if (m_COHit != null)
@@ -117,11 +143,13 @@ public class Player : MonoBehaviour, ITakeDamageable
         m_COHit = StartCoroutine(Hit());
     }
 
-    private IEnumerator Hit()
+    public void AddEXP(int _value)
     {
-        m_refRener.color = m_tChangeColor;
-        yield return new WaitForSeconds(0.2f);
-        m_refRener.color = m_tOriginColor;
+        m_refExpSlider.value += ( (float)_value/ (float)m_iEXP);
+        if(m_refExpSlider.value >= 1.0f)
+        {
+            m_refExpSlider.value = 0;
+            //스킬
+        }
     }
-
 }
