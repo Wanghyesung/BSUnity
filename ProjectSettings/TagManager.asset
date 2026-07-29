@@ -12,8 +12,8 @@ TagManager:
   - Water
   - UI
   - Monster
-  - 
-  - 
+  - MonsterAttack
+  - PlayerAttack
   - 
   - 
   - 
@@ -44,7 +44,7 @@ TagManager:
   - name: Ground
     uniqueID: 1595895383
     locked: 0
-  - name: 
+  - name: Attack
     uniqueID: 3933823445
     locked: 0
   - name: Bullet

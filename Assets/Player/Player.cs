@@ -31,13 +31,18 @@ public class Player : MonoBehaviour, ITakeDamageable
 
 
     eEntityState m_eState = eEntityState.Idle;
+    Color m_tOriginColor;
+    [SerializeField] private Color m_tChangeColor;
 
+    private Coroutine m_COHit = null;
     private void Awake()
     {
         m_player = this;
         m_fLastFireTime = Time.time;
         m_refRener = GetComponent<SpriteRenderer>();
         m_refRigid = GetComponent<Rigidbody2D>();
+
+        m_tOriginColor = m_refRener.color;
     }
 
     private void Update()
@@ -98,12 +103,18 @@ public class Player : MonoBehaviour, ITakeDamageable
 
     public void TakeDamage(Vector2 vHitPos)
     {
+        m_refTable.SetTrigger(eEntityState.Hit);
 
+        if (m_COHit != null)
+            StopCoroutine(m_COHit);
+        m_COHit = StartCoroutine(Hit());
     }
 
-    private void Hit()
+    private IEnumerator Hit()
     {
-
+        m_refRener.color = m_tChangeColor;
+        yield return new WaitForSeconds(0.2f);
+        m_refRener.color = m_tOriginColor;
     }
 
 }

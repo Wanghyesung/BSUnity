@@ -47,7 +47,9 @@ public class Bullet : MonoBehaviour
     {
         if ((m_tHitLayer.value & (1 << other.gameObject.layer)) != 0)
         {
-           // other.GetComponent<>
+            var dam = other.GetComponent<ITakeDamageable>();
+            dam.TakeDamage(transform.position);
+            Destroy(gameObject);
         }
     }
 }
