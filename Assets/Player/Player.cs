@@ -1,8 +1,10 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.Events;
 using UnityEngine.UI;
 using static SKillControler;
 
@@ -20,6 +22,7 @@ public class Player : MonoBehaviour, ITakeDamageable
     [SerializeField] private Slider m_refExpSlider;
 
     public event Action OnLevelUP;
+    public event UnityEvent OnDead;
 
     private Vector2 m_vInput;
 
@@ -55,6 +58,10 @@ public class Player : MonoBehaviour, ITakeDamageable
     private int m_iEXP = 100;
 
     [SerializeField] private CardCreator m_refCardCreator;
+
+    private int m_iLevel = 0;
+    [SerializeField] private TextMeshProUGUI m_refLevelText;
+
     private void Awake()
     {
         m_iHP = m_iMax;
@@ -100,7 +107,6 @@ public class Player : MonoBehaviour, ITakeDamageable
 
             m_refSkill.ShotSkill(vPos);
         }
-
     }
 
     private void FixedUpdate()
@@ -156,6 +162,7 @@ public class Player : MonoBehaviour, ITakeDamageable
         m_COHit = StartCoroutine(Hit());
     }
 
+    //CallBack
     public void AddEXP(int _value)
     {
         m_refExpSlider.value += ( (float)_value/ (float)m_iEXP);
@@ -163,12 +170,22 @@ public class Player : MonoBehaviour, ITakeDamageable
         {
             m_refExpSlider.value = 0;
             //스킬
+            ++m_iLevel;
             m_refCardCreator.StartCard();
+
+            m_refLevelText.text = m_iLevel.ToString();
         }
     }
 
     public void AddSkill(eSkillKey _eSkill)
     {
         m_refSkill.UnLockSkill(_eSkill);
+    }
+
+
+    public void Dead()
+    {
+        OnDead?.Invoke();
+        gameObject.SetActive(false);
     }
 }
