@@ -57,7 +57,7 @@ public class CardCreator : MonoBehaviour
     {
         Player.MainPlayer.AddSkill(_eKey);
 
-        Time.timeScale = 0.0f;
+        Time.timeScale = 1.0f;
         gameObject.SetActive(false);
     }
 }
