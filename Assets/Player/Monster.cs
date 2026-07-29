@@ -29,12 +29,19 @@ public class Monster : MonoBehaviour, ITakeDamageable
 
     private Coroutine m_COHit = null;
 
+    private SOMonsterInfo m_refInfo;
+    public void Init(SOMonsterInfo _SOData)
+    {
+        m_refInfo = _SOData;
+        HP = m_refInfo.MaxHP;
+        m_fSpeed = m_refInfo.Speed;
+    }
+
     private void Awake()
     {
         m_refRigid = GetComponent<Rigidbody2D>();
         m_refRener = GetComponent<SpriteRenderer>();
         m_tOriginColor = m_refRener.color;
-
     }
 
 
@@ -93,7 +100,7 @@ public class Monster : MonoBehaviour, ITakeDamageable
         vPos += m_vDir * m_fOffset;
 
         var attack = GameObject.Instantiate(AttakObj, vPos, Quaternion.identity);
-        attack.Init(10);
+        attack.Init(m_refInfo.Damage);
     }
     
 

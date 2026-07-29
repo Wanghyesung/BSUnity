@@ -66,7 +66,7 @@ public class Player : MonoBehaviour, ITakeDamageable
 
 
 
-        if (Input.GetKeyDown(KeyCode.Space))
+        if (Input.GetKey(KeyCode.Space))
         {
             Fire();
             m_refSkill.ShotSkill();
