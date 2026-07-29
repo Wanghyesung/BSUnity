@@ -1,8 +1,10 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
+using static SKillControler;
 
 
 public interface ITakeDamageable
@@ -17,6 +19,7 @@ public class Player : MonoBehaviour, ITakeDamageable
     [SerializeField] private Slider m_refHPSlider;
     [SerializeField] private Slider m_refExpSlider;
 
+    public event Action OnLevelUP;
 
     private Vector2 m_vInput;
 
@@ -40,7 +43,7 @@ public class Player : MonoBehaviour, ITakeDamageable
     Color m_tOriginColor;
     [SerializeField] private Color m_tChangeColor;
 
-    [SerializeField] private SkillManager m_refSkill;
+    [SerializeField] private SKillControler m_refSkill;
 
     private Coroutine m_COHit = null;
 
@@ -50,6 +53,8 @@ public class Player : MonoBehaviour, ITakeDamageable
     private int m_iHP = 100;
     private int m_iMax = 100;
     private int m_iEXP = 100;
+
+    [SerializeField] private CardCreator m_refCardCreator;
     private void Awake()
     {
         m_iHP = m_iMax;
@@ -85,7 +90,15 @@ public class Player : MonoBehaviour, ITakeDamageable
         if (Input.GetKey(KeyCode.Space))
         {
             Fire();
-            m_refSkill.ShotSkill();
+
+
+            Vector2 vPos = transform.position;
+            Vector2 vDiff = MOUSE_POS - vPos;
+            Vector2 vNor = vDiff.normalized;
+
+            vPos += vNor * m_fOffset * 3;
+
+            m_refSkill.ShotSkill(vPos);
         }
 
     }
@@ -150,6 +163,12 @@ public class Player : MonoBehaviour, ITakeDamageable
         {
             m_refExpSlider.value = 0;
             //스킬
+            m_refCardCreator.StartCard();
         }
+    }
+
+    public void AddSkill(eSkillKey _eSkill)
+    {
+        m_refSkill.UnLockSkill(_eSkill);
     }
 }

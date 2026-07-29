@@ -5,11 +5,11 @@ using UnityEngine;
 
 public class AttackObj : MonoBehaviour
 {
-    [SerializeField] private LayerMask m_tAttackLayer;
-    [SerializeField] private int m_iAttack;
+    [SerializeField] protected LayerMask m_tAttackLayer;
+    [SerializeField] protected int m_iAttack;
 
     [SerializeField] private float m_fAliveTime = 0.1f;
-    private float m_fCurTime = 0.0f;
+    protected float m_fCurTime = 0.0f;
 
     [SerializeField] private AttackObj m_refDeadSpawn = null;
 
@@ -31,6 +31,8 @@ public class AttackObj : MonoBehaviour
         {
             var dam = other.GetComponent<ITakeDamageable>();
             dam.TakeDamage(transform.position, m_iAttack);
+            Debug.Log(gameObject.name);
+
         }
     }
 

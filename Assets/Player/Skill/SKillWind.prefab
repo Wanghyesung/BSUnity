@@ -263,7 +263,7 @@ GameObject:
   - component: {fileID: 2436045369482260911}
   - component: {fileID: 1689838662442457597}
   - component: {fileID: 2851765649384044587}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: SKillWind
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -338,6 +338,6 @@ MonoBehaviour:
   m_tAttackLayer:
     serializedVersion: 2
     m_Bits: 64
-  m_iAttack: 0
+  m_iAttack: 30
   m_fAliveTime: 1
   m_refDeadSpawn: {fileID: 0}
