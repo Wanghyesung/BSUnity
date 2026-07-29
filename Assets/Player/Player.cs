@@ -41,6 +41,7 @@ public class Player : MonoBehaviour, ITakeDamageable
 
     public static Player MainPlayer => m_player;
 
+    [SerializeField] private List<SOItem> m_listItem;
 
     eEntityState m_eState = eEntityState.Idle;
     Color m_tOriginColor;
@@ -109,6 +110,11 @@ public class Player : MonoBehaviour, ITakeDamageable
 
             m_refSkill.ShotSkill(vPos);
         }
+
+        if (Input.GetKeyDown(KeyCode.O))
+            AppHP();
+        if (Input.GetKeyDown(KeyCode.P))
+            AppSpeed();
     }
 
     private void FixedUpdate()
@@ -199,4 +205,49 @@ public class Player : MonoBehaviour, ITakeDamageable
         OnDead?.Invoke();
         gameObject.SetActive(false);
     }
+
+
+    public void AppHP()
+    {
+        for(int i = 0; i<m_listItem.Count;++i)
+        {
+            var list = m_listItem[i].ListValue;
+
+            for(int j = 0; j < list.Count; ++j)
+            {
+                if (list[j].Type == eStatType.HP)
+                {
+                    ApplyHP((int)list[j].Value);
+                    return;
+                }
+            }
+        }
+    }
+
+    public void AppSpeed()
+    {
+        for (int i = 0; i < m_listItem.Count; ++i)
+        {
+            var list = m_listItem[i].ListValue;
+
+            for (int j = 0; j < list.Count; ++j)
+            {
+                if (list[j].Type == eStatType.Speed)
+                {
+                    ApplySpeed((int)list[j].Value);
+                    return;
+                }
+            }
+        }
+    }
+    public void ApplyHP(int hp)
+    {
+        m_iHP += hp;
+        m_refHPSlider.value = ((float)m_iHP / (float)m_iMax);
+    }
+
+    public void ApplySpeed(float speed)
+    {
+        m_fSpeed += speed;
+    }    
 }

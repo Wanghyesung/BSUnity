@@ -6136,6 +6136,9 @@ MonoBehaviour:
   m_fOffset: 0.5
   m_refBullet: {fileID: 6018890242539741642, guid: d73bc52fa7afbc045bace8e2b9ccb054, type: 3}
   m_refTable: {fileID: 1633757517}
+  m_listItem:
+  - {fileID: 11400000, guid: 50d5978d52b28e349b5dbd2c1b382d3e, type: 2}
+  - {fileID: 11400000, guid: fd9dbd7a190af7a488132abb385fe1b6, type: 2}
   m_tChangeColor: {r: 1, g: 0, b: 0, a: 1}
   m_refSkill: {fileID: 1250106575}
   m_refCardCreator: {fileID: 328755920}
