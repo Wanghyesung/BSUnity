@@ -22,7 +22,7 @@ public class Player : MonoBehaviour, ITakeDamageable
     [SerializeField] private Slider m_refExpSlider;
 
     public event Action OnLevelUP;
-    public event UnityEvent OnDead;
+    public UnityEvent OnDead;
 
     private Vector2 m_vInput;
 
@@ -62,6 +62,7 @@ public class Player : MonoBehaviour, ITakeDamageable
     private int m_iLevel = 0;
     [SerializeField] private TextMeshProUGUI m_refLevelText;
 
+    private bool dead = false;
     private void Awake()
     {
         m_iHP = m_iMax;
@@ -79,6 +80,7 @@ public class Player : MonoBehaviour, ITakeDamageable
     }
     private void Update()
     {
+        if (dead) return;
         m_vInput.x = Input.GetAxis("Horizontal");
         m_vInput.y = Input.GetAxis("Vertical");
         if (m_vInput.magnitude >= 0.1f)
@@ -111,6 +113,8 @@ public class Player : MonoBehaviour, ITakeDamageable
 
     private void FixedUpdate()
     {
+        if (dead) return;
+
         Vector2 vPos = m_refRigid.position;
         vPos.x += (m_vInput.x * m_fSpeed * Time.fixedDeltaTime);
         vPos.y += (m_vInput.y * m_fSpeed * Time.fixedDeltaTime);
@@ -154,12 +158,19 @@ public class Player : MonoBehaviour, ITakeDamageable
     {
         m_iHP -= _iDamage;
         m_refHPSlider.value = ((float)m_iHP / (float)m_iMax);
+        if(m_iHP <= 0.0f)
+        {
+            m_refTable.SetTrigger(eEntityState.Dead);
+        }
+        else
+        {
+            m_refTable.SetTrigger(eEntityState.Hit);
 
-        m_refTable.SetTrigger(eEntityState.Hit);
-
-        if (m_COHit != null)
-            StopCoroutine(m_COHit);
-        m_COHit = StartCoroutine(Hit());
+            if (m_COHit != null)
+                StopCoroutine(m_COHit);
+            m_COHit = StartCoroutine(Hit());
+        }
+       
     }
 
     //CallBack
