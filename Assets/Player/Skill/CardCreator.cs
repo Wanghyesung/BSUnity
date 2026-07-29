@@ -18,11 +18,11 @@ public class CardCreator : MonoBehaviour
     [SerializeField] private List<SkillData> m_listSkill = new List<SkillData>();
 
     [SerializeField] private List<Card> m_listCard = new List<Card>();
-
+    
     private HashSet<int> m_hash = new HashSet<int>();
     private List<int> m_listIdx = new List<int>();
 
-   
+    [SerializeField] SkillBook m_refBook;
 
     public void StartCard()
     {
@@ -53,10 +53,10 @@ public class CardCreator : MonoBehaviour
     }
 
 
-    public void SelectCard(eSkillKey _eKey)
+    public void SelectCard(SkillData _Data)
     {
-        Player.MainPlayer.AddSkill(_eKey);
-
+        Player.MainPlayer.AddSkill(_Data.Key);
+        m_refBook.AddData(_Data);
         Time.timeScale = 1.0f;
         gameObject.SetActive(false);
     }
