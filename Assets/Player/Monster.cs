@@ -21,7 +21,7 @@ public class Monster : MonoBehaviour, ITakeDamageable
 
     [SerializeField] private LayerMask m_tAttackLayer;
 
-    [SerializeField] private MonAttackObj AttakObj;
+    [SerializeField] private AttackObj AttakObj;
     [SerializeField] private float m_fOffset = 1.0f;
 
     private bool m_bHit = false;

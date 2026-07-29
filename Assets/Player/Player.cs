@@ -34,7 +34,11 @@ public class Player : MonoBehaviour, ITakeDamageable
     Color m_tOriginColor;
     [SerializeField] private Color m_tChangeColor;
 
+    [SerializeField] private SkillManager m_refSkill;
+
     private Coroutine m_COHit = null;
+
+    public static Vector2 MOUSE_POS;
     private void Awake()
     {
         m_player = this;
@@ -63,7 +67,10 @@ public class Player : MonoBehaviour, ITakeDamageable
 
 
         if (Input.GetKeyDown(KeyCode.Space))
+        {
             Fire();
+            m_refSkill.ShotSkill();
+        }
 
     }
 
@@ -89,10 +96,10 @@ public class Player : MonoBehaviour, ITakeDamageable
 
     private void Spawn()
     {
-        Vector2 mouseWorldPos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+        MOUSE_POS = Camera.main.ScreenToWorldPoint(Input.mousePosition);
 
         Vector2 vPos = transform.position;
-        Vector2 vDiff = mouseWorldPos - vPos;
+        Vector2 vDiff = MOUSE_POS - vPos;
         Vector2 vNor = vDiff.normalized;
 
         vPos += vNor * m_fOffset;
